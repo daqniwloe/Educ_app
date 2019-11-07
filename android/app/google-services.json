@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "305988124750",
+    "firebase_url": "https://educapp-9c276.firebaseio.com",
+    "project_id": "educapp-9c276",
+    "storage_bucket": "educapp-9c276.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305988124750:android:5e24cc1585cfd9df15031f",
+        "android_client_info": {
+          "package_name": "br.com.educ.educ_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305988124750-t4ok4lefqred2b980od4ab85i2kbl8iv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjiht7yjD8zk2OTpB3doJNQREpkxn98jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305988124750-t4ok4lefqred2b980od4ab85i2kbl8iv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
