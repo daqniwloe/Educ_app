@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educ_app/models/user_model.dart';
 import 'package:educ_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+
+import 'package:http/http.dart' as http;
 
 void main() => runApp(LoginApp());
 
@@ -20,11 +25,54 @@ class LoginApp extends StatelessWidget {
               primaryColor: Colors.green
           ),
           home: LoginPage(),
+
         ),
     );
   }
 
 }
+
+void postHTTP() async {
+  var url = 'http://treinamento.educ.ifrn.edu.br/api/admin/user/get_token/';
+  var response = await http.post(url, body: {'username': '790.463.984-04', 'password': '123'});
+
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
+}
+
+Future<String> getJSONData() async {
+  var response = await http.get(
+      Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/educ/diario/meus_diarios/"),
+      headers: {"Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"}
+  );
+
+
+
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
+
+
+}
+
+ Future<List<dynamic>> getJSONDataa() async {
+
+
+  final response = await http.get(
+      Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/admin/user/269/"),
+      headers: {"Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"}
+  );
+
+
+
+
+
+  print(response.body);
+
+
+}
+
+
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -32,6 +80,9 @@ class LoginPage extends StatefulWidget {
     return _LoginPageState();
   }
 }
+
+
+
 
 class _LoginPageState extends State<LoginPage> {
 
@@ -43,6 +94,8 @@ class _LoginPageState extends State<LoginPage> {
   // f45d27
   // f5851f
 
+
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -52,11 +105,14 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
 
+    //getJSONData();
+
     return Scaffold(
       key: _scaffoldKey,
       body: ScopedModelDescendant<UserModel>(
-        
-        builder: (context, child, model){
+
+         builder: (context, child, model){
+
           if(model.isLoading) // Se o modelo estiver carregando Algo, irá retornar um Temporizador
             return Center(child: CircularProgressIndicator(),);
           return Form(
@@ -258,6 +314,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
       )
+
     );
   }
 

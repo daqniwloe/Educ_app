@@ -1,26 +1,53 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educ_app/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import 'package:http/http.dart' as http;
+
 class HomeTab extends StatelessWidget {
+
 
   @override
   Widget build(BuildContext context) {
 
+    Future<String> getJSONData() async {
+
+      var response = await http.get(
+          Uri.encodeFull(
+              "http://treinamento.educ.ifrn.edu.br/api/educ/diario/meus_diarios/"),
+          headers: {
+            "Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"
+          });
+
+      print('Response status: ${response.statusCode}');
+      //print('Response body: ${response.body}');
+
+
+
+
+      Map userMap = jsonDecode(response.body);
+
+       List<User> users = userMap['result'].map<User>((json)=>
+          User.fromJson(json),
+
+       ).toList();
+
+      print(users.toString());
+
+    }
+    getJSONData();
     // Trabalhando o Degrade do app
     Widget _buildBodyBack() => Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
             Color.fromARGB(255, 51, 55, 232),
             Color.fromARGB(255, 56, 113, 255),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight
-        )
-      ),
-    );
+          ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+        );
 
     // stack para quando quer escrever algo em cima de um fundo
     return Stack(
@@ -28,9 +55,11 @@ class HomeTab extends StatelessWidget {
         _buildBodyBack(),
         CustomScrollView(
           slivers: <Widget>[
-            SliverAppBar( //Onde deixa o item fixo no Scroll
+            SliverAppBar(
+              //Onde deixa o item fixo no Scroll
               floating: true,
-              snap: true, // quando abaixar a tela o titulo vai sumir. Quando subir, ele reaparece.
+              snap:
+                  true, // quando abaixar a tela o titulo vai sumir. Quando subir, ele reaparece.
               backgroundColor: Colors.transparent,
               elevation: 0.0,
               flexibleSpace: FlexibleSpaceBar(
@@ -38,47 +67,23 @@ class HomeTab extends StatelessWidget {
                 centerTitle: true,
               ),
             ),
-            FutureBuilder<QuerySnapshot>(
-              future: Firestore.instance
-                .collection("home").orderBy("pos").getDocuments(),
-              builder: (context, snapshot){
-                if(!snapshot.hasData)
-                  return SliverToBoxAdapter(
-                    child: Container(
-                      height: 200.0,
-                      alignment: Alignment.center,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  );
-                else
-                  //Contar o número de Blocos
-                  return SliverStaggeredGrid.count(
-                      crossAxisCount: 2,
-                    mainAxisSpacing: 1.0, //Espaçamento Vertical
-                    crossAxisSpacing: 1.0, //Espaçamento Horizontal
 
-                    staggeredTiles: snapshot.data.documents.map(
+           /* SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: DataTable(
+                columns: [
+                  DataColumn(label: Text('Nome')),
+                  DataColumn(
+                      label: Text(
+                    'Matricula',
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                  DataColumn(label: Text('Notas')),
+                  DataColumn(label: Text('Frequencia')),
+                ],
+              ),
+            )*/
 
-                        (doc){
-                          return StaggeredTile.count(doc.data["x"], doc.data["y"]);
-                  }
-                    ).toList(),
-
-                    children: snapshot.data.documents.map(
-                        (doc){
-                          return FadeInImage.memoryNetwork(
-                              placeholder: kTransparentImage,
-                              image: doc.data["image"],
-                              fit: BoxFit.cover,
-                          );
-                        }
-                    ).toList(),
-
-                  );
-              },
-            )
           ],
         )
       ],
