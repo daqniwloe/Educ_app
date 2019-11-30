@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educ_app/models/login.dart';
 import 'package:educ_app/models/user_model.dart';
 import 'package:educ_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:http/http.dart' as http;
@@ -25,14 +27,23 @@ class LoginApp extends StatelessWidget {
   }
 }
 
+
+// Retorna o Token
+/*
 void postHTTP() async {
   var url = 'http://treinamento.educ.ifrn.edu.br/api/admin/user/get_token/';
   var response = await http.post(url, body: {'username': '790.463.984-04', 'password': '123'});
 
+  if(response.statusCode == 403){
+    print('Error');
+  };
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
 }
-
+//
+*/
+/*
+// Retorna as Informações do Diário
 Future<String> getJSONData() async {
   var response = await http.get(
       Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/educ/diario/meus_diarios/"),
@@ -41,7 +52,10 @@ Future<String> getJSONData() async {
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
 }
+*/
 
+/*
+// Retorna Username, email, nome e foto
 Future<List<dynamic>> getJSONDataa() async {
   final response = await http.get(
       Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/admin/user/269/"),
@@ -49,6 +63,22 @@ Future<List<dynamic>> getJSONDataa() async {
 
   print(response.body);
 }
+*/
+
+/*
+//Adiciona uma Aula
+Future<List<dynamic>> getJSONDataa() async {
+  final response = await http.post(
+      Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/educ/aula/"),
+      headers: {"Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59", "diario": "4",
+        "etapa": "1", "data": "21/11/2019", "qtd": "1", "conteudo": "xxxxx"});
+
+  print(response.statusCode);
+  print(response.body);
+}
+
+
+*/
 
 class LoginPage extends StatefulWidget {
   @override
@@ -58,11 +88,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  Resp resp;
+  int Teste;
+
+  String teste2;
+
+  bool hasData = false;
+
+
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final storage = new FlutterSecureStorage();
+
   // f45d27
   // f5851f
 
@@ -70,13 +112,49 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
+    getJSONData();
+
+  }
+
+  getJSONData() async {
+    var url = 'http://treinamento.educ.ifrn.edu.br/api/admin/user/get_token/';
+    var response = await http.post(url, body: {'username': _emailController.text, 'password': _passController.text});
+    //print('Response status: ${response.statusCode}');
+    //print('Response body: ${response.body}');
+    String value = await storage.read(key: response.body);
+
+    //Map userMap = jsonDecode(response.body);
+   // resp = Resp.fromJson(userMap["result"][0]);
+    //print(resp.username);
+
+    print(response.body);
+    Teste = response.statusCode;
+
+    teste2 = value;
+    //print (Teste);
+    setState(() {
+      teste2 = value;
+      Teste = response.statusCode;
+      hasData = true;
+    });
+    //  List<User> users = userMap['result'].map<User>((json)=>
+    //     User.fromJson(json),
+    //  ).toList();
+    // print(users.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    //getJSONData();
 
-    return Scaffold(
+    //getJSONDataa();
+    print(teste2);
+
+
+    return
+      (!hasData)
+          ? CircularProgressIndicator()
+          :
+      Scaffold(
         key: _scaffoldKey,
         body: ScopedModelDescendant<UserModel>(
           builder: (context, child, model) {
@@ -146,14 +224,14 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 icon: Icon(
-                                  Icons.email,
+                                  Icons.confirmation_number,
                                   color: Colors.grey,
                                 ),
                                 hintText: 'Login',
                               ),
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.number,
                               validator: (text) {
-                                if (text.isEmpty || text.contains("@")) return "Email Inválido";
+                                if (text.isEmpty || text.contains(".") || text.contains("-") ) return "CPF Inválido";
                               },
                             ),
                           ),
@@ -175,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Icons.vpn_key,
                                   color: Colors.grey,
                                 ),
-                                hintText: 'Senha',
+                                hintText: 'senha',
                               ),
                               obscureText: true,
                               validator: (text) {
@@ -209,17 +287,33 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                               onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  return Navigator.push(context,
-                                      MaterialPageRoute(builder: (contex) => HomeScreen()));
+                                getJSONData();
+                                if(Teste == 200){
+                                return Navigator.push(context,
+                                    MaterialPageRoute(builder: (contex) => HomeScreen()));
+                              } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context){
+                                        return AlertDialog(
+                                          title: new Text(""),
+                                          content: new Text("Login ou Senha incorretos"),
+                                        );
+                                      }
+                                    
+                                  );
                                 }
+                              }
+                              /*
+                                if (_formKey.currentState.validate()  ) {
+
                                 ;
                                 model.signIn(
                                     email: _emailController.text,
                                     pass: _passController.text,
                                     onSuccess: _onSuccess,
                                     onFail: _onFail);
-                              },
+                              },*/
                             ),
                           ),
                         ],

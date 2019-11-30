@@ -8,8 +8,10 @@ class Resp {
   Sala sala;
   Turma turma;
 
+
+
   Resp(this.componente, this.percentualLancamentoFrequencia, this.percentualLancamentoNotas,
-      this.qtdAlunos, this.id, this.professor, this.sala, this.turma);
+      this.qtdAlunos, this.id, this.professor, this.sala, this.turma, );
   Resp.fromJson(Map<String, dynamic> json) {
     componente = Componente.fromJson(json["componente"]);
     percentualLancamentoFrequencia = int.parse(json["get_percentual_lancamento_frequencia"]);
@@ -19,6 +21,9 @@ class Resp {
     professor = Professor.fromJson(json["professor"]);
     sala = Sala.fromJson(json["sala"]);
     turma = Turma.fromJson(json["turma"]);
+
+
+
   }
 
   Map toJson() {
@@ -30,7 +35,9 @@ class Resp {
       "id": id,
       "professor": professor.toJson(),
       "sala": sala.toJson(),
-      "turma": turma.toJson()
+      "turma": turma.toJson(),
+
+
     };
   }
 }

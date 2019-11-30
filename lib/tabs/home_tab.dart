@@ -15,6 +15,7 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+
   Resp resp;
 
   bool hasData = false;
@@ -63,10 +64,13 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    ;
     // stack para quando quer escrever algo em cima de um fundo
     return (!hasData)
         ? CircularProgressIndicator()
-        : Stack(
+        :
+    Stack(
+
       children: <Widget>[
         _buildBodyBack(),
         CustomScrollView(
@@ -145,9 +149,15 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
               ),
-            )
+
+            ),
+
           ],
-        )
+
+        ),
+
+
+
       ],
     );
   }
