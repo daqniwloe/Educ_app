@@ -96,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool hasData = false;
 
+ String tokenn;
 
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
@@ -112,30 +113,48 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
-    getJSONData();
-
+    //getJSONData();
   }
+
+
+
+
 
   getJSONData() async {
     var url = 'http://treinamento.educ.ifrn.edu.br/api/admin/user/get_token/';
     var response = await http.post(url, body: {'username': _emailController.text, 'password': _passController.text});
     //print('Response status: ${response.statusCode}');
     //print('Response body: ${response.body}');
-    String value = await storage.read(key: response.body);
+
 
     //Map userMap = jsonDecode(response.body);
    // resp = Resp.fromJson(userMap["result"][0]);
     //print(resp.username);
 
+    var mapped = jsonDecode(response.body);
+
+    print(mapped['result']['token']);
+
     print(response.body);
     Teste = response.statusCode;
 
-    teste2 = value;
+
+    //Map userToken = jsonDecode(response.body);
+    //resp = userToken["result"]['token'];
+
+    await gravarToken(mapped['result']['token']);  // PASSA O TOKEN PARA SER GRAVADO
+
+    teste2 = response.body;
     //print (Teste);
+
     setState(() {
-      teste2 = value;
+      teste2 = response.body;
       Teste = response.statusCode;
+
+      gravarToken(mapped['result']['token']);
+
       hasData = true;
+
     });
     //  List<User> users = userMap['result'].map<User>((json)=>
     //     User.fromJson(json),
@@ -143,17 +162,43 @@ class _LoginPageState extends State<LoginPage> {
     // print(users.toString());
   }
 
+
+// GRAVA O TOKEN
+  gravarToken(token) async {
+    String s = await storage.read(key: "protectToken");
+    if ((s == null)) {
+      await storage.write(key: "protectToken", value: token);
+      var tokenLido = await storage.read(key: "protectToken");
+      return tokenLido;
+    } else {
+      await storage.deleteAll();
+      await storage.write(key: "protectToken", value: token);
+      var tokenLido = await storage.read(key: "protectToken");
+      return tokenLido;
+    }
+  }
+
+
+  //Quando for ler o token: use um: var token = await lerToken();
+
+  lerToken() async{
+    String s = await storage.read(key: "protectToken");
+    return s;
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
     //getJSONDataa();
-    print(teste2);
+    //print(teste2);
 
-
+    //lerToken();
     return
-      (!hasData)
-          ? CircularProgressIndicator()
-          :
+   //   (!hasData)
+       //   ? CircularProgressIndicator()
+         // :
       Scaffold(
         key: _scaffoldKey,
         body: ScopedModelDescendant<UserModel>(

@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educ_app/models/user.dart';
+import 'package:educ_app/screens/aluno_frequencia_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:transparent_image/transparent_image.dart';
-
+import 'package:educ_app/main.dart';
 import 'package:http/http.dart' as http;
 
 class HomeTab extends StatefulWidget {
@@ -19,19 +21,31 @@ class _HomeTabState extends State<HomeTab> {
   Resp resp;
 
   bool hasData = false;
-
+  final storage = new FlutterSecureStorage();
   @override
   void initState() {
     super.initState();
     getJSONData();
   }
 
+  lerToken() async{
+    String s = await storage.read(key: "protectToken");
+    return s;
+
+  }
+
+  //Quero usar o token armazenado Aqui
   getJSONData() async {
+    var token = await lerToken();
+    //var teste = token.replaceAll(new RegExp('""'),'');
+    print(token);
+
     var response = await http.get(
         Uri.encodeFull(
             "http://treinamento.educ.ifrn.edu.br/api/educ/diario/meus_diarios/"),
-        headers: {
-          "Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"
+        //headers: {"Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"
+        headers: {"Authorization": "Token ${token}"
+
         });
 
     print('Response status: ${response.statusCode}');
@@ -120,7 +134,11 @@ class _HomeTabState extends State<HomeTab> {
                       DataCell(Text(
                         resp.componente.text,
                         style: TextStyle(color: Colors.white),
-                      )),
+
+                      ),
+                          onTap:()=> Navigator.push(context,
+                              MaterialPageRoute(builder: (contex) => aluno_frequencia_screen()))
+                      ),
                       DataCell(Text(
                         resp.percentualLancamentoFrequencia.toString(),
                         style: TextStyle(color: Colors.white),
@@ -161,4 +179,6 @@ class _HomeTabState extends State<HomeTab> {
       ],
     );
   }
+
+
 }

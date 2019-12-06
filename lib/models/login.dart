@@ -1,20 +1,22 @@
 class Resp {
 
 
-  String username;
+  String result;
+  String token;
 
-  Resp( this.username);
+  Resp( this.result, this.token);
 
   Resp.fromJson(Map<String, dynamic> json) {
 
-    username = json["username"];
-
+    result = json["result"]["token"];
+    token = json["token"];
   }
 
   Map toJson() {
     return {
 
-      "username": username,
+      "result": result,
+      "token": token,
     };
 
   }

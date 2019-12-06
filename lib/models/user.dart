@@ -1,3 +1,5 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 class Resp {
   Componente componente;
   int percentualLancamentoFrequencia;
@@ -145,3 +147,4 @@ class Turma {
 
   Map<String, dynamic> toJson() => {'id': id, 'text': text};
 }
+
