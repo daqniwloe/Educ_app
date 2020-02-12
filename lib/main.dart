@@ -40,11 +40,26 @@ void postHTTP() async {
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
 }
-//
+
 */
+
+//Registrar Falta
 /*
+void postHTTP() async {
+  var url = 'http://treinamento.educ.ifrn.edu.br/api/educ/falta/';
+  var response = await http.post(url, body: {'Authorization': 'Token dfba99dbad894452f843d1af00ffbcd559c63e59',
+    'aula': '46254', 'matricula_diario': '1410'});
+
+  if(response.statusCode == 403){
+    print('Error');
+  };
+  print('Response status: ${response.statusCode}');
+  print('Response body: ${response.body}');
+}
+*/
+
 // Retorna as Informações do Diário
-Future<String> getJSONData() async {
+Future<String> getJSONDat() async {
   var response = await http.get(
       Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/educ/diario/meus_diarios/"),
       headers: {"Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"});
@@ -52,7 +67,18 @@ Future<String> getJSONData() async {
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
 }
-*/
+
+
+  Future<String>getJson() async{
+    var response = await http.get(
+      Uri.encodeFull("http://treinamento.educ.ifrn.edu.br/api/educ/diario/1410/"),
+      headers: {"Authorization": "Token dfba99dbad894452f843d1af00ffbcd559c63e59"}
+    );
+
+    print('response body ${response.body}');
+
+  }
+
 
 /*
 // Retorna Username, email, nome e foto
@@ -191,8 +217,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
 
-    //getJSONDataa();
-    //print(teste2);
+    getJSONDat();
+    getJson();
+   // postHTTP();
+
+
+
 
     //lerToken();
     return

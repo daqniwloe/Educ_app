@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educ_app/models/user.dart';
 import 'package:educ_app/screens/aluno_frequencia_screen.dart';
+import 'package:educ_app/screens/teste_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -22,6 +23,7 @@ class _HomeTabState extends State<HomeTab> {
 
   bool hasData = false;
   final storage = new FlutterSecureStorage();
+
   @override
   void initState() {
     super.initState();
@@ -78,7 +80,7 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    ;
+
     // stack para quando quer escrever algo em cima de um fundo
     return (!hasData)
         ? CircularProgressIndicator()
@@ -137,7 +139,7 @@ class _HomeTabState extends State<HomeTab> {
 
                       ),
                           onTap:()=> Navigator.push(context,
-                              MaterialPageRoute(builder: (contex) => aluno_frequencia_screen()))
+                              MaterialPageRoute(builder: (contex) => listFrequencia()))
                       ),
                       DataCell(Text(
                         resp.percentualLancamentoFrequencia.toString(),

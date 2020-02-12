@@ -33,20 +33,20 @@ class AulaScreen extends StatelessWidget {
               }
               return
                 SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                child: DataTable(
-                columns: [
-                  DataColumn(label: Text('Matéria')),
-                  DataColumn(
-                      label: Text(
-                    'Assunto',
-                    overflow: TextOverflow.ellipsis,
-                  )),
-                  DataColumn(label: Text('Data')),
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Matéria')),
+                      DataColumn(
+                          label: Text(
+                            'Assunto',
+                            overflow: TextOverflow.ellipsis,
+                          )),
+                      DataColumn(label: Text('Data')),
 
-                ],
-                rows: _fillRows(alunos),
-              ),
+                    ],
+                    rows: _fillRows(alunos),
+                  ),
                 );
             }
           },

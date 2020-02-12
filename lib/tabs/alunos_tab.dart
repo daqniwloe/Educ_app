@@ -15,10 +15,10 @@ class AlunosTab extends StatelessWidget {
           );
         else {
           var dividedTiles = ListTile.divideTiles(
-                  tiles: snapshot.data.documents.map((doc) {
-                    return CategoryTile(doc);
-                  }).toList(),
-                  color: Colors.grey[500])
+              tiles: snapshot.data.documents.map((doc) {
+                return CategoryTile(doc);
+              }).toList(),
+              color: Colors.grey[500])
               .toList();
 
           return ListView(

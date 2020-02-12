@@ -37,9 +37,9 @@ class CategoryTile extends StatelessWidget {
         }
 
         if(snapshot.data["title"] == "Visualizar Alunos"){
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (context)=>AlunoScreen(snapshot))
-        );
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context)=>AlunoScreen(snapshot))
+          );
         }
 
 

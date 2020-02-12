@@ -14,6 +14,7 @@ class Resp {
 
   Resp(this.componente, this.percentualLancamentoFrequencia, this.percentualLancamentoNotas,
       this.qtdAlunos, this.id, this.professor, this.sala, this.turma, );
+
   Resp.fromJson(Map<String, dynamic> json) {
     componente = Componente.fromJson(json["componente"]);
     percentualLancamentoFrequencia = int.parse(json["get_percentual_lancamento_frequencia"]);
@@ -147,4 +148,101 @@ class Turma {
 
   Map<String, dynamic> toJson() => {'id': id, 'text': text};
 }
+
+// Detalhes Diário
+
+
+class Resp2{
+
+  Aluno aluno;
+  Diario diario;
+  int get_qtd_faltas;
+  Get_serie get_serie;
+
+  int id;
+
+  String situacao;
+
+
+
+
+
+
+  Resp2(this.aluno, this.diario, this.get_qtd_faltas, this.get_serie, this.id, this.situacao);
+
+  Resp2.fromJson(Map<String, dynamic>json){
+    aluno = Aluno.fromJson(json["aluno"]);
+    diario = Diario.fromJson(json["diario"]);
+    get_qtd_faltas = int.parse(json["get_qtd_faltas"]);
+    get_serie = Get_serie.fromJson(json["get_serie"]);
+    id = json["id"];
+    situacao = json["situacao"];
+  }
+
+  Map toJson(){
+    return {
+      "aluno": aluno.toJson(),
+      "diario":diario.toJson(),
+      "get_qtd_faltas":get_qtd_faltas,
+      "get_serie":get_serie.toJson(),
+      "id":id,
+      "situacao":situacao
+    };
+  }
+
+
+
+}
+
+
+class Aluno{
+  int id;
+  String text;
+
+  Aluno(int id, String text){
+    this.id = id;
+    this.text = text;
+
+  }
+
+  Aluno.fromJson(Map<String, dynamic>json):
+  id = json['id'],
+  text = json['text'];
+
+  Map<String, dynamic> toJson() =>{'id':id, 'text':text};
+}
+
+class Diario{
+  int id;
+  String text;
+
+  Diario(int id, String text){
+    this.id = id;
+    this.text = text;
+
+  }
+
+  Diario.fromJson(Map<String, dynamic>json):
+      id = json['id'],
+      text = json['text'];
+
+  Map<String, dynamic>toJson() => {'id':id, 'text':text};
+}
+
+class Get_serie{
+  int id;
+  String text;
+
+  Get_serie(int id, String text){
+    this.id = id;
+    this.text = text;
+  }
+
+  Get_serie.fromJson(Map<String,dynamic>json):
+      id = json['id'],
+      text = json['text'];
+
+  Map<String, dynamic> toJson() => {'id':id, 'text':text};
+}
+
 

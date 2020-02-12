@@ -47,45 +47,45 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 0.0,
-                      bottom: 25.0,
-                      child: ScopedModelDescendant<UserModel>(
+                        left: 0.0,
+                        bottom: 25.0,
+                        child: ScopedModelDescendant<UserModel>(
 
-                        builder: (context, child, model){
+                          builder: (context, child, model){
 
-                          return  Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text("Olá, ${!model.isLoggedIn() ? "" : model.userData["name"]}",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              GestureDetector( // Tag de Link
-                                child: Text(
-                                  !model.isLoggedIn() ?
-                                  "Faça o Login"
-                                  : "Sair",
+                            return  Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text("Olá, ${!model.isLoggedIn() ? "" : model.userData["name"]}",
                                   style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                onTap: (){
+                                GestureDetector( // Tag de Link
+                                  child: Text(
+                                    !model.isLoggedIn() ?
+                                    "Faça o Login"
+                                        : "Sair",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                  onTap: (){
 
-                                      Navigator.of(context).push(
+                                    Navigator.of(context).push(
                                         MaterialPageRoute(builder: (context) => LoginApp())
-                                      );
+                                    );
 
-                                },
-                              )
-                            ],
-                          );
-                        },
+                                  },
+                                )
+                              ],
+                            );
+                          },
 
-                    )
+                        )
                     )
                   ],
                 ), // Utiliza o Stack quando quer posiconar as coisas
