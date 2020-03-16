@@ -33,33 +33,33 @@ class UserModel extends Model{
     isLoading = true;
     notifyListeners();
 
-   _auth.signInWithEmailAndPassword(email: email, password: pass).then(
-           (user) async{
-              firebaseUser = user;
+    _auth.signInWithEmailAndPassword(email: email, password: pass).then(
+            (user) async{
+          firebaseUser = user;
 
-              await _loadCurrentUser();
+          await _loadCurrentUser();
 
-              onSuccess();
-              isLoading = false;
-              notifyListeners();
-   }).catchError((e){
-        onFail();
-        isLoading = false;
-        notifyListeners();
-   });
+          onSuccess();
+          isLoading = false;
+          notifyListeners();
+        }).catchError((e){
+      onFail();
+      isLoading = false;
+      notifyListeners();
+    });
 
-   
+
   }
 
   Future signOut() async {
-   await _auth.signOut();
+    await _auth.signOut();
 
 
 
-   userData = Map();
-   firebaseUser = null;
+    userData = Map();
+    firebaseUser = null;
 
-   notifyListeners();
+    notifyListeners();
 
   }
 
@@ -80,8 +80,8 @@ class UserModel extends Model{
     if(firebaseUser != null){
       if(userData["name"] == null){
         DocumentSnapshot docUser =
-            await Firestore.instance.collection("users").document(firebaseUser.uid).get();
-            userData = docUser.data;
+        await Firestore.instance.collection("users").document(firebaseUser.uid).get();
+        userData = docUser.data;
       }
     }
     notifyListeners();

@@ -40,7 +40,7 @@ dependencies:
   flutter_secure_storage: ^3.3.1+1
 
   http: ^0.12.0+2
-
+  horizontal_data_table:
 
 dev_dependencies:
   flutter_test:

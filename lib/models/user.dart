@@ -29,6 +29,7 @@ class Resp {
 
   }
 
+
   Map toJson() {
     return {
       "componente": componente.toJson(),
@@ -39,10 +40,10 @@ class Resp {
       "professor": professor.toJson(),
       "sala": sala.toJson(),
       "turma": turma.toJson(),
-
-
     };
   }
+
+
 }
 
 class User {

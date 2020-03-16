@@ -1,5 +1,6 @@
 import 'package:educ_app/main.dart';
 import 'package:educ_app/models/user_model.dart';
+import 'package:educ_app/tabs/home_tab.dart';
 import 'package:educ_app/tiles/drawer_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -95,6 +96,7 @@ class CustomDrawer extends StatelessWidget {
               DrawerTile(Icons.school, "Alunos", pageController, 1),
               DrawerTile(Icons.class_, "Aulas", pageController, 2),
               DrawerTile(Icons.chat, "Chat", pageController, 3),
+
             ],
           )
         ],

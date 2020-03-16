@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:educ_app/globals.dart' as globals;
+
+
 //DefaultTabController
 
 class listFrequencia extends StatefulWidget {

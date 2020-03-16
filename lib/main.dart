@@ -11,6 +11,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'models/user.dart';
+
 void main() => runApp(LoginApp());
 
 class LoginApp extends StatelessWidget {
@@ -363,10 +365,10 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               onPressed: () {
                                 getJSONData();
-                                if(Teste == 200){
+                                //if(Teste == 200){
                                 return Navigator.push(context,
                                     MaterialPageRoute(builder: (contex) => HomeScreen()));
-                              } else {
+                                /*} else {
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context){
@@ -377,7 +379,7 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                     
                                   );
-                                }
+                                }*/
                               }
                               /*
                                 if (_formKey.currentState.validate()  ) {

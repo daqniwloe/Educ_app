@@ -26,6 +26,12 @@ class HomeScreen extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(), //Impede dos containers ficarem passando de um lado para o outro
       children: <Widget>[
         Scaffold(
+          appBar: AppBar(
+              backgroundColor: Colors.blue,
+              elevation: 0.0,
+              title: Text('EDUC'),
+              centerTitle: true,
+          ),
           body: HomeTab(),
           drawer: CustomDrawer(_pageController),
         ),
